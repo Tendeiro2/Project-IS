@@ -1,0 +1,450 @@
+﻿<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projeto: Integração de Sistemas</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #6699CC;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 90%;
+            max-width: 500px;
+            margin-bottom: 20px;
+        }
+
+        div {
+            margin-bottom: 15px;
+        }
+
+        h1 {
+            font-size: 24px;
+            color: #000000;
+        }
+
+        p {
+            font-size: 14px;
+            color: #555;
+        }
+
+        .students {
+            margin-top: 15px;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .somiod {
+            font-size: 18px;
+            color: #000000;
+            font-weight: 600;
+        }
+
+        .student {
+            margin: 5px 0;
+        }
+
+        .footer {
+            margin-top: 20px;
+            font-size: 8px;
+            color: #888;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            font-size: 12px;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+            button:hover {
+                background-color: #45a049;
+                transform: scale(1.05);
+            }
+
+            button:active {
+                background-color: #3e8e41;
+                transform: scale(0.95);
+            }
+
+        a {
+            text-decoration: none;
+        }
+
+        .request-container {
+            margin-top: 15px;
+            padding: 3px; 
+            background-color: #f4f4f4;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            font-size: 14px;
+            width: 80%; 
+            max-width: 400px; 
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        select {
+            width: 100%;
+            padding: 8px;
+            margin: 4px 0;
+            font-size: 14px; 
+            border-radius: 6px;
+            border: 1px solid #ddd;
+            max-width: 320px;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin: 4px 0;
+            font-size: 14px; 
+            border-radius: 6px;
+            border: 1px solid #ddd;
+            max-width: 300px;
+        }
+
+        .request-button {
+            background-color: #4CAF50;
+            color: white;
+            font-size: 13px;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 5px
+        }
+
+            .request-button:hover {
+                background-color: #45a049;
+            }
+
+            .request-button:active {
+                background-color: #3e8e41;
+            }
+
+        .response-container {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f4f4f4;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .name-list {
+            font-size: 14px;
+            color: #333;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+            .name-list li {
+                margin-bottom: 8px;
+            }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 6px;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .modal-header {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .modal-body {
+            margin-top: 15px;
+            font-size: 14px;
+        }
+
+        .close {
+            cursor: pointer;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 20px;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div>
+            <h1>Projeto Integração de Sistemas</h1>
+            <p class="somiod">SOMIOD</p>
+        </div>
+
+        <div class="students">
+            <div class="student">Miguel Crespo  - 2222046</div>
+            <div class="student">João Tendeiro  - 2222047</div>
+            <div class="student">Bernardo Lopes - 2222048</div>
+            <div class="student">José Delgado   - 2222049</div>
+        </div>
+
+        <a href="https://localhost:44322/swagger/ui/index#/SOMIOD" target="_blank">
+            <button style="margin-top: 10px; margin-bottom: 10px;">
+                Abrir Swagger UI
+            </button>
+        </a>
+
+        <div class="request-container">
+            <h2>Locate Requests</h2>
+
+            <form action="#" method="POST" id="customRequestForm">
+
+                <div>
+                    <label for="locate-type">Escolha o tipo de locate</label>
+                    <select id="locate-type" name="locate-type" required>
+                        <option value="application">Locate Applications</option>
+                        <option value="resources">Locate Resources</option>
+                        <option value="parents">Locate Parents</option>
+                    </select>
+                </div>
+
+                <div id="route-container">
+                    <label for="route">Base URL</label> <br />
+                    <input type="text" id="route" name="route" value="/api/somiod" required />
+                </div>
+
+                <div id="somiod-header-container">
+                    <label for="somiod-header">Header "somiod-locate"</label>
+                    <select id="somiod-header" name="somiod-header">
+                        <option value="application">Application</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="request-button">Enviar</button>
+            </form>
+        </div>
+
+        <div id="modal" class="modal">
+            <div class="modal-content">
+                <span class="close" id="closeModal">&times;</span>
+                <div class="modal-header">
+                    Response
+                </div>
+                <div class="modal-body" id="modalBody"></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+<script>
+    if (Notification.permission !== 'granted') {
+        Notification.requestPermission();
+    }
+
+    // Função para exibir a notificação
+    function showNotification(title, body) {
+        if (Notification.permission === 'granted') {
+            const notification = new Notification(title, {
+                body: body,
+                icon: 'https://example.com/icon.png' 
+            });
+        }
+    }
+
+    function openModal(content) {
+        const modal = document.getElementById('modal');
+        const modalBody = document.getElementById('modalBody');
+        modalBody.innerHTML = content;
+        modal.style.display = 'flex';
+    }
+
+    document.getElementById('closeModal').addEventListener('click', function () {
+        document.getElementById('modal').style.display = 'none';
+    });
+
+    document.getElementById('locate-type').addEventListener('change', function () {
+        const locateType = this.value;
+        const somiodHeaderDropdown = document.getElementById('somiod-header');
+
+        if (locateType === 'application') {
+            document.getElementById('route').value = '/api/somiod';
+            somiodHeaderDropdown.innerHTML = `<option value="application">Application</option>`;
+        } else if (locateType === 'resources') {
+            document.getElementById('route').value = '/api/somiod/{applicationName}';
+            somiodHeaderDropdown.innerHTML = `
+                        <option value="container">Container</option>
+                        <option value="record">Record</option>
+                        <option value="notification">Notification</option>
+                    `;
+        } else if (locateType === 'parents') {
+            document.getElementById('route').value = '/api/somiod/{resourceName}/parent';
+            somiodHeaderDropdown.innerHTML = `
+         <option value="container">Container</option>
+         <option value="record">Record</option>
+         <option value="notification">Notification</option>
+     `;
+        }
+    });
+
+    document.getElementById('customRequestForm').addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        const route = document.getElementById('route').value;
+        const somiodHeader = document.getElementById('somiod-header').value;
+
+        fetch('https://localhost:44322' + route, {
+            method: 'GET',
+            headers: {
+                'somiod-locate': somiodHeader,
+                'Content-Type': 'application/json',
+            }
+        })
+            .then(response => response.text())
+            .then(data => {
+                if (data.includes('<Error>')) {
+                    displayError(data);
+                } else {
+                    displayNames(data);
+                }
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+            });
+    });
+
+    function displayNames(xmlData) {
+        const parser = new DOMParser();
+        const xmlDoc = parser.parseFromString(xmlData, "text/xml");
+
+        const locateType = document.getElementById('locate-type').value;
+        const somiodHeader = document.getElementById('somiod-header').value;
+        let content = '<ul class="name-list">';
+        let noDataFound = true;
+
+        if (locateType === 'resources') {
+      
+            const applications = xmlDoc.getElementsByTagName('Application');
+            if (applications.length === 0) {
+                content = '<p>Nenhum dado encontrado.</p>';
+            } else {
+                for (let i = 0; i < applications.length; i++) {
+                    
+                    const containers = applications[i].getElementsByTagName('Container');
+                    for (let j = 0; j < containers.length; j++) {
+                        const name = containers[j].getElementsByTagName('Name')[0].textContent;
+                        content += `<li>${name}</li>`;
+                        noDataFound = false; 
+                    }
+
+                    const records = applications[i].getElementsByTagName('Record');
+                    for (let j = 0; j < records.length; j++) {
+                        const name = records[j].getElementsByTagName('Name')[0].textContent;
+                        content += `<li>${name}</li>`;
+                        noDataFound = false; 
+                    }
+
+                  
+                    const notifications = applications[i].getElementsByTagName('Notification');
+                    for (let j = 0; j < notifications.length; j++) {
+                        const name = notifications[j].getElementsByTagName('Name')[0].textContent;
+                        content += `<li>${name}</li>`;
+                        noDataFound = false;
+                    }
+                }
+            }
+        } else if (locateType === 'application') {
+            
+            const applications = xmlDoc.getElementsByTagName('Application');
+            if (applications.length === 0) {
+                content = '<p>Nenhum dado encontrado.</p>';
+            } else {
+                for (let i = 0; i < applications.length; i++) {
+ 
+                    const name = applications[i].getElementsByTagName('Name')[0].textContent;
+                    content += `<li>${name}</li>`;
+                    noDataFound = false; 
+                }
+            }
+        } else if (locateType === 'parents') {
+  
+            const applications = xmlDoc.getElementsByTagName('Application');
+            if (applications.length === 0) {
+                content = '<p>Nenhum dado encontrado.</p>';
+            } else {
+                for (let i = 0; i < applications.length; i++) {
+                    const applicationName = applications[i].getElementsByTagName('Name')[0].textContent;
+
+                    if (somiodHeader === 'container') {
+                        content += `<li>Parent: ${applicationName}</li>`;
+                        noDataFound = false;
+                    } else if (somiodHeader === 'notification' || somiodHeader === 'record') {
+                        const containers = applications[i].getElementsByTagName('Container');
+                        for (let j = 0; j < containers.length; j++) {
+                            const containerName = containers[j].getElementsByTagName('Name')[0].textContent;
+                            content += `<li>Application Parent - ${applicationName} <br> <br> Container Parent - ${containerName}</li>`;
+                            noDataFound = false; 
+                        }
+                    }
+                }
+            }
+        }
+
+        content += '</ul>';
+
+        if (noDataFound) {
+            content = '<p><strong>Nenhum dado encontrado.</strong></p>';
+        }
+
+        openModal(content);
+
+        if (!noDataFound) {
+            showNotification('Dados Encontrados', 'Clique para ver os resultados.');
+        }
+    }
+
+
+    function displayError(errorData) {
+        openModal('<p><strong>Erro ao consultar os dados:<br><br> </strong> ' + errorData + '</p>');
+    }
+</script>
+</body>
+</html>

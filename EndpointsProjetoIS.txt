@@ -1,0 +1,127 @@
+-------------------------------- Projeto IS -------------------------------- 
+
+Nota: O locate serve para retornar os nomes do recurso passado no header
+Nota: Record e Notification nao suportam o PUT
+Nota: Nao esquecer de criar -> endpoint where the notification should be fired
+
+O POST (create) e o locate usam no url a identificação do recurso pai
+O GET(list), DELETE e PUT usam a referencia virtual para os recursos 
+(o nome do recurso no qual queremos efectuar uma operacao x)
+    Ex: DELETE api/somiod/appplicationXX/containerYY/record/{name} 
+        name refere-se ao recurso que será apagado
+
+
+---------------- Applications ----------------
+POST -> Create de uma aplicação
+    [Route("api/somiod")] + [HttpPost]
+    Return -> 201 Created
+
+LOCATE -> Get de todas as Applications 
+    [Route("api/somiod")] + [HttpGet]
+    Header -> somiod-locate: application
+    Return -> Lista de todos as aplicações, apenas os nomes
+
+
+
+GET -> Get de uma app específica 
+    [Route("api/somiod/{name}")] + [HttpGet]
+    Return -> Todas as informacões de uma aplicação (Name e DateTime)
+
+PUT -> Atualizar uma aplicação específica 
+    [Route("api/somiod/{name}")] + [HttpPut]
+    Return -> Aplicação atualizada (Name e DateTime)
+
+DELETE -> Apagar uma aplicação específica 
+    [Route("api/somiod/{name}")] + [HttpDelete]
+    Return -> Aplicação que foi apagada
+
+
+---------------- Container ----------------
+POST -> Create de um Container filho da appXX 
+    [Route("api/somiod/{appXX}")] + [HttpPost]
+    Return -> 201 Created
+
+LOCATE -> Get de todos os Containers de uma app x, app pai
+    [Route("api/somiod/{appXX}")] + [HttpGet]
+    Header -> somiod-locate: container
+    Return -> Lista de todos os containers da aplicacao, apenas os nomes
+
+
+
+GET -> Get de uma container específico
+    [Route("api/somiod/{appXX}/{containerYY}")] + [HttpGet]
+    Return -> Todas as informacões de um container (Name e DateTime)
+
+PUT -> Atualizar um container específico 
+    [Route("api/somiod/{appXX}/{containerYY}")] + [HttpPut]
+    Return -> Container atualizado (Name e DateTime)
+
+DELETE -> Apagar um container específico 
+    [Route("api/somiod/{appXX}/{containerYY}")] + [HttpDelete]
+    Return -> Container que foi apagado
+
+
+---------------- Record ----------------
+POST -> Create de um Record filho do containerYY
+    [Route("api/somiod/{appXX}/{containerYY}")] + [HttpPost]
+    Return -> 201 Created
+
+LOCATE -> Get de todos os Records de uma app 
+    [Route("api/somiod/{appXX}")] + [HttpGet]
+    Header -> somiod-locate: record
+    Return -> Lista de todos os records da aplicacao, apenas os nomes
+
+
+GET -> Get de um record específico
+    [Route("api/somiod/{appXX}/{containerYY}/record/{name}")] + [HttpGet]
+    Return -> Todas as informacões de um record 
+
+DELETE -> Apagar um record específico 
+    [Route("api/somiod/{appXX}/{containerYY}/record/{name}")] + [HttpDelete]
+    Return -> Record que foi apagado
+
+
+---------------- Notification ----------------
+POST -> Create de uma Notification filha do containerYY
+    [Route("api/somiod/{appXX}/{containerYY}")] + [HttpPost]
+    Return -> 201 Created
+
+LOCATE -> Get de todos as Notifications de uma app 
+    [Route("api/somiod/{appXX}")] + [HttpGet]
+    Header -> somiod-locate: notification
+    Return -> Lista de todos as notifications da aplicacao, apenas os nomes
+
+
+GET -> Get de uma notification específica
+    [Route("api/somiod/{appXX}/{containerYY}/notification/{name}")] + [HttpGet]
+    Return -> Todas as informacões da notification
+
+DELETE -> Apagar uma notification específica
+    [Route("api/somiod/{appXX}/{containerYY}/notification/{name}")] + [HttpDelete]
+    Return -> Notification que foi apagado
+
+
+
+
+
+
+
+
+
+
+  // Identificar o tipo de XML com base no nó raiz
+    string rootName = xmlDoc.DocumentElement?.Name;
+
+    // Verifica se é um "Record"
+    if (rootName.Equals("Record", StringComparison.OrdinalIgnoreCase))
+    {
+        // Processar o Record
+        return Content(HttpStatusCode.OK, "Record received.");
+    }
+
+    // Verifica se é uma "Notification"
+    if (rootName.Equals("Notification", StringComparison.OrdinalIgnoreCase))
+    {
+        // Processar a Notification
+        return Content(HttpStatusCode.OK, "Notification received.");
+    }

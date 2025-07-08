@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Controle da Lâmpada</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      // Função para buscar o estado atual da lâmpada do servidor
+      async function fetchLampState() {
+        try {
+          const response = await fetch("/state", { method: "GET" });
+          if (response.ok) {
+            const data = await response.json();
+            updateLampState(data.state);
+          } else {
+            console.error("Erro ao buscar estado da lâmpada:", response.status);
+          }
+        } catch (error) {
+          console.error("Erro na requisição:", error);
+        }
+      }
+
+      function updateLampState(state) {
+        const lampImage = document.getElementById("lamp-image");
+        const lampStateText = document.getElementById("lamp-state-text");
+
+        if (state === "on") {
+          lampImage.src = "{{ url_for('static', filename='lamp_on.png') }}";
+          lampImage.alt = "Lâmpada Ligada";
+          lampStateText.innerHTML =
+            '<span class="text-green-500">Ligada</span>';
+        } else {
+          lampImage.src = "{{ url_for('static', filename='lamp_off.png') }}";
+          lampImage.alt = "Lâmpada Desligada";
+          lampStateText.innerHTML =
+            '<span class="text-red-500">Desligada</span>';
+        }
+      }
+
+      // Função para buscar mensagens recebidas
+      async function fetchMessages() {
+        try {
+          const mqttResponse = await fetch("/mqtt-messages", { method: "GET" });
+          const httpResponse = await fetch("/http-messages", { method: "GET" });
+
+          if (mqttResponse.ok && httpResponse.ok) {
+            const mqttData = await mqttResponse.json();
+            const httpData = await httpResponse.json();
+
+            updateMessages("mqtt-messages-box", mqttData.messages);
+            updateMessages("http-messages-box", httpData.messages);
+          } else {
+            console.error(
+              "Erro ao buscar mensagens:",
+              mqttResponse.status,
+              httpResponse.status
+            );
+          }
+        } catch (error) {
+          console.error("Erro na requisição de mensagens:", error);
+        }
+      }
+
+      // Função para atualizar mensagens nos retângulos
+      function updateMessages(elementId, messages) {
+        const container = document.getElementById(elementId);
+        container.innerHTML = messages
+          .map((message) => `<p class="text-sm">${message}</p>`)
+          .join("");
+      }
+
+      // Atualizar o estado da lâmpada e mensagens a cada 3 segundos
+      setInterval(fetchLampState, 3000);
+      setInterval(fetchMessages, 3000);
+    </script>
+  </head>
+  <body class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <div class="bg-white p-8 rounded shadow-md w-full max-w-4xl text-center">
+      <h1 class="text-2xl font-bold mb-6">Controle da Lâmpada</h1>
+
+      <!-- Imagem da lâmpada com base no estado atual -->
+      <div class="mb-6">
+        <img
+          id="lamp-image"
+          src="{% if state == 'on' %}{{ url_for('static', filename='lamp_on.png') }}{% else %}{{ url_for('static', filename='lamp_off.png') }}{% endif %}"
+          alt="{% if state == 'on' %}Lâmpada Ligada{% else %}Lâmpada Desligada{% endif %}"
+          class="mx-auto w-44 h-44"
+        />
+      </div>
+
+      <!-- Estado atual da lâmpada -->
+      <div class="mb-6">
+        <span class="text-lg font-semibold">
+          Estado da Lâmpada:
+          <span id="lamp-state-text">
+            {% if state == 'on' %}<span class="text-green-500">Ligada</span>{%
+            else %}<span class="text-red-500">Desligada</span>{% endif %}
+          </span>
+        </span>
+      </div>
+
+      <!-- Retângulos para exibição das mensagens -->
+      <div class="flex justify-between">
+        <!-- Retângulo MQTT -->
+        <div class="bg-gray-200 p-4 w-1/2 mx-2 rounded shadow">
+          <h2 class="text-lg font-bold mb-2">Mensagens MQTT</h2>
+          <p class="text-sm text-gray-600 mb-2">Event: 1 (Post: Record)</p>
+          <div
+            id="mqtt-messages-box"
+            class="text-left h-32 overflow-y-auto bg-white p-2 rounded shadow"
+          ></div>
+        </div>
+
+        <!-- Retângulo HTTP -->
+        <div class="bg-gray-200 p-4 w-1/2 mx-2 rounded shadow">
+          <h2 class="text-lg font-bold mb-2">Mensagens HTTP</h2>
+          <p class="text-sm text-gray-600 mb-2">Event: 2 (Delete: Record)</p>
+          <div
+            id="http-messages-box"
+            class="text-left h-32 overflow-y-auto bg-white p-2 rounded shadow"
+          ></div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
