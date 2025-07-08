@@ -10,7 +10,7 @@ and state governments where new applications and innovative services can be deve
 a better environment and economy and a smarter society.
 However, nowadays, a major part of IoT proposed and already deployed IoT solutions rely on private protocols and
 private cloud services which have a huge negative impact on interoperability and data sharing across different
-devices, applications, and platforms what several researchers call “Silo of Things” such as in [1].
+devices, applications, and platforms what several researchers call “Silo of Things”.
 The aim of this project is to create a service-oriented middleware able to define an uniformization into the way data
 is accessed, written, and notified, independent of the application domain, to promote interoperability and open
 data (data is always accessed and written in the same way and applications are always created in the same way.
